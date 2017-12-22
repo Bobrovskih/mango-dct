@@ -1,6 +1,6 @@
 {
   "name": "mango-dct",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "NodeJS SDK for API Dynamic Calltracking by MANGO OFFICE",
   "main": "index.js",
   "scripts": {
@@ -27,12 +27,12 @@
   },
   "homepage": "https://github.com/Bobrovskih/mango-dct#readme",
   "dependencies": {
-    "eslint-config-airbnb": "^16.1.0",
-    "request": "^2.83.0",
-    "request-promise": "^4.2.2"
+    "eslint-config-airbnb": "16.1.0",
+    "request": "2.83.0",
+    "request-promise": "4.2.2"
   },
   "devDependencies": {
-    "eslint-config-airbnb-base": "^12.1.0",
-    "eslint-plugin-import": "^2.8.0"
+    "eslint-config-airbnb-base": "12.1.0",
+    "eslint-plugin-import": "2.8.0"
   }
 }
