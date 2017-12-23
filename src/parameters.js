@@ -1,19 +1,19 @@
 const all = [
-    'dateStart',
-    'dateEnd',
-    'callType',
-    'isNew',
-    'isQuality',
-    'utmSource',
-    'utmMedium',
-    'utmCampaign',
-    'utmContent',
-    'utmTerm'
+	'dateStart',
+	'dateEnd',
+	'callType',
+	'isNew',
+	'isQuality',
+	'utmSource',
+	'utmMedium',
+	'utmCampaign',
+	'utmContent',
+	'utmTerm'
 ];
 
 const required = [
-    'dateStart',
-    'dateEnd'
+	'dateStart',
+	'dateEnd'
 ];
 
 module.exports.allParams = all;
