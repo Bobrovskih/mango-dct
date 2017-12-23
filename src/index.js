@@ -1,4 +1,5 @@
 const Adapter = require('./adapter');
+const rp = require('request-promise');
 
 /**
  * Класс для работы с API динамического коллтрекинга от MANGO OFFICE
@@ -9,7 +10,7 @@ class MangoDct {
      * @param { string } token - токен виджета из личного кабинета
      * @param { string } wid - id виджета из личного кабинета
      */
-    constructor(token, wid) {
+    constructor(token = process.env.token, wid = process.env.wid) {
         this.validateConstructor(token, wid);
         this.token = token;
         this.wid = wid;
@@ -25,24 +26,27 @@ class MangoDct {
      * @return {Promise<Array>}
      */
     calls(options) {
+        let params, url;
+
         options.access_token = this.token;
-        
+
         if (!Adapter.isValid(options)) {
             throw new Error('переданы не верные параметры');
             return;
         };
 
-        let params = Adapter.stringer(options);
-        let url = this.createUrl(params);
+        options = Adapter.normalize(options);
+        params = Adapter.stringer(options);
+        url = this.createUrl(params);
 
-        return Adapter.request(url);
+        return this.request(url);
     }
 
     /**
      * Строит урл для GET запроса
      * @param {string} params - строка параметров
      */
-    createUrl(params){
+    createUrl(params) {
         return `${this.baseUrl}${this.wid}/calls?${params}`;
     }
 
@@ -62,6 +66,25 @@ class MangoDct {
             throw new Error('Необходимо задать id виджета')
         }
         return true;
+    }
+
+
+    /**
+     * Выполняет GET запрос
+     * @param {string} url  - урл для запроса
+     * @return {Promise<any>}
+     */
+    request(url) {
+        console.log('request->', url);
+        let options = {
+            url: url,
+            method: 'GET',
+            json: true,
+            headers:{
+                'Authorization': `Bearer ${this.token}`
+            }
+        };
+        return rp(options);
     }
 
 

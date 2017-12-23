@@ -8,16 +8,12 @@ const all = [
     'utmMedium',
     'utmCampaign',
     'utmContent',
-    'utmTerm',
-
-    'access_token'
+    'utmTerm'
 ];
 
 const required = [
     'dateStart',
-    'dateEnd',
-    
-    'access_token'
+    'dateEnd'
 ];
 
 module.exports.allParams = all;
