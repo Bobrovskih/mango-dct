@@ -1,6 +1,6 @@
 const MangoDct = require('../src/index');
 
-let DCT = new MangoDct();
+let dct = new MangoDct();
 
 async function main() {
     let parameters, calls;
@@ -12,7 +12,7 @@ async function main() {
         utmCampaign: 'skidka50'
     };
 
-    calls = await DCT.calls(parameters).catch(err => console.log(err.message));
+    calls = await dct.calls(parameters).catch(err => console.log(err.message));
     console.log('выгруженные звонки', calls);
 }
 
