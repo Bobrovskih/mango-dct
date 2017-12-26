@@ -99,6 +99,12 @@ describe('метод Adapter.lastDays', () => {
 		const result = Adapter.lastDays.bind(Adapter, 12);
 		expect(result).to.not.throw();
 	});
+
+	it('lastDays 32', () => {
+		const result = Adapter.lastDays.bind(Adapter, 32);
+		const err = /^максимальный период выгрузки 31 день$/;
+		expect(result).to.throw(Error, err);
+	});
 });
 
 describe('метод Adapter.trimToMinutes', () => {

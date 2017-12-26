@@ -26,7 +26,8 @@ const MangoDct = require('mango-dct');
 const dct = new MangoDct();
 
 async function main() {
-    let parameters, calls;
+    let parameters;
+    let calls;
 
     parameters = {
         lastDays: 31,
