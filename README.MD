@@ -9,12 +9,12 @@
 NodeJS версии 8 или более
 
 ### Токен
-Токен можно задать через переменную `process.env.token`</br>
+Токен можно задать через переменную `process.env.TOKEN`</br>
 Или передать первый аргумент в конструктор 
 `new MangoDct('your-token-here', 'your-widget-id');`
 
 ### ID виджета
-ID виджета можно задать через переменную `process.env.wid`</br>
+ID виджета можно задать через переменную `process.env.WID`</br>
 Или передать второй аргумент в конструктор 
 `new MangoDct('your-token-here', 'your-widget-id');`
 
@@ -42,6 +42,7 @@ async function main() {
 main();
 ```
 
+[Все примеры](examples/)
 
 ## класс MangoDct
 Создание нового экземпляра
@@ -59,28 +60,37 @@ new MangoDct('your-token-here', 'your-widget-id');
 
 
 ```js
-MangoDct.calls({lastDays:'31', utmSource:'yandex.ru'}); // => Promise<any[]>
+MangoDct.calls(options); // => Promise<any[]>
 ```
 
 | Аргумент  | Тип  | Описание|
 | ------------ | ------------ |------------ |
-| options  | Object   |  Объект содержит фильтры выгрузки  |
+| options  | object   |  Объект содержит фильтры выгрузки  |
 
 </br>
 
-Период выгрузки можно задать двумя способами:
+Период выгрузки можно задать несколькими способами:
 
 
 ```js
 // за последний 31 день
-MangoDct.calls({lastDays:'31'});
+MangoDct.calls({ lastDays: '31' });
 ```
 или
 ```js
 // с 01 июня 2016 по 30 июня 2016
-MangoDct.calls({dateStart:'2017-06-01T00:00', dateEnd:'2017-06-30T00:00Z'});
+MangoDct.calls({ dateStart: '2017-06-01T00:00', dateEnd: '2017-06-30T00:00Z' });
 ```
-
+или
+```js
+// за вчера
+MangoDct.calls({ yesterday: true })
+```
+или
+```js
+// за сегодня
+MangoDct.calls({ today: true })
+```
 </br>
 
  Возможные фильтры:
@@ -100,4 +110,11 @@ MangoDct.calls({dateStart:'2017-06-01T00:00', dateEnd:'2017-06-30T00:00Z'});
 
 
 
+### Отладка
+Для логирования необходимо задать переменную `process.env.DEBUG=request`
+</br>
+Пример лога:
+```
+2017-12-27T18:23:38.033Z request -> https://widgets-api.mango-office.ru/v1/calltracking/224/calls?utmSource=yandex.ru&utmMedium=cpc&utmCampaign=skidka50&dateStart=2017-11-26T18:23Z&dateEnd=2017-12-27T18:23Z
+```
 

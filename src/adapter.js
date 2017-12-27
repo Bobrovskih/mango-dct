@@ -6,12 +6,19 @@ const { allParams, requiredParams } = require('./parameters');
  */
 class Adapter {
 	/**
-     * Проверяет параметры на корректность
-     * @param {any} params - объект с параметрами GET запроса
-     * @return {Boolean}
-     */
-	static isValid(params) {
+	 * Проверяет параметры на корректность
+	 * @param {any} params - объект с параметрами GET запроса
+	 */
+	static validate(params) {
 		if (parseInt(params.lastDays, 10)) {
+			return true;
+		}
+		
+		if (params.yesterday) {
+			return true;
+		}
+
+		if (params.today) {
 			return true;
 		}
 
@@ -21,16 +28,16 @@ class Adapter {
 					return true;
 				}
 			}
-			return false;
+			throw new Error('переданы не верные параметры');
 		});
 	}
 
 	/**
-     * Преобразует объект в строку параметров
-     *
-     * @param { any } params - объект с параметрами GET запроса
-     * @return { string }
-     */
+	 * Преобразует объект в строку параметров
+	 *
+	 * @param { any } params - объект с параметрами GET запроса
+	 * @return { string }
+	 */
 	static stringer(params) {
 		for (const key in params) {
 			if (allParams.indexOf(key) === -1) {
@@ -42,23 +49,39 @@ class Adapter {
 	}
 
 	/**
-     *
-     */
+	 * Выставляет дату в options
+	 * В зависимости от переданных параметров
+	 */
 	static normalize(options) {
 		if (options.lastDays) {
 			const { dateStart, dateEnd } = this.lastDays(options.lastDays);
 			options.dateStart = dateStart;
 			options.dateEnd = dateEnd;
+			return options;
+		}
+
+		if (options.today) {
+			const { dateStart, dateEnd } = this.getTodayPeriod();
+			options.dateStart = dateStart;
+			options.dateEnd = dateEnd;
+			return options;
+		}
+
+		if (options.yesterday) {
+			const { dateStart, dateEnd } = this.getYesterdayPeriod();
+			options.dateStart = dateStart;
+			options.dateEnd = dateEnd;
+			return options;
 		}
 
 		return options;
 	}
 
 	/**
-     * Устанавливает для параметров значения по умолчанию
-     * @param {any} options - объект с параметрами GET запроса
-     * @return {any}
-     */
+	 * Устанавливает для параметров значения по умолчанию
+	 * @param {any} options - объект с параметрами GET запроса
+	 * @return {any}
+	 */
 	static setDefaults(options) {
 		options.callType = options.callType || 0;
 		options.isNew = options.isNew || 0;
@@ -67,11 +90,11 @@ class Adapter {
 	}
 
 	/**
-     * Принимает количество дней.
-     * Возвращает объект с датой начала и конца в формате ISO 8601
-     * @param {string} value
-     * @return {any}
-     */
+	 * Принимает количество дней.
+	 * Возвращает объект с датой начала и конца в формате ISO 8601
+	 * @param {string} value
+	 * @return {any}
+	 */
 	static lastDays(value) {
 		let dateStart;
 		let dateEnd;
@@ -91,7 +114,10 @@ class Adapter {
 		dateEnd = new Date().toISOString();
 		dateEnd = this.trimToMinutes(dateEnd);
 
-		return { dateStart, dateEnd };
+		return {
+			dateStart,
+			dateEnd
+		};
 	}
 
 	/**
@@ -104,6 +130,53 @@ class Adapter {
 	static trimToMinutes(isoDate) {
 		const pattern = /:\d{2}\.\d{3}/;
 		return isoDate.replace(pattern, '');
+	}
+
+	/**
+	 * Возвращает период за вчерашний день.
+	 * В формате ISO 8601 (short)
+	 *
+	 * @return {any}
+	 */
+	static getYesterdayPeriod() {
+		let dateStart = new Date();
+		dateStart.setDate(dateStart.getDate() - 1);
+		dateStart.setHours(0);
+		dateStart.setMinutes(0);
+		dateStart = dateStart.toISOString();
+		dateStart = this.trimToMinutes(dateStart);
+
+		let dateEnd = new Date();
+		dateEnd.setHours(0);
+		dateEnd.setMinutes(0);
+		dateEnd = dateEnd.toISOString();
+		dateEnd = this.trimToMinutes(dateEnd);
+
+		return {
+			dateStart,
+			dateEnd
+		};
+	}
+
+	/**
+	 * Возвращает период за сегодняшний день
+	 * в формате ISO 8601 (short)
+	 */
+	static getTodayPeriod() {
+		let dateStart = new Date();
+		dateStart.setHours(0);
+		dateStart.setMinutes(0);
+		dateStart = dateStart.toISOString();
+		dateStart = this.trimToMinutes(dateStart);
+
+		let dateEnd = new Date();
+		dateEnd = dateEnd.toISOString();
+		dateEnd = this.trimToMinutes(dateEnd);
+
+		return {
+			dateStart,
+			dateEnd
+		};
 	}
 }
 

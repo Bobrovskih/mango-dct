@@ -7,15 +7,15 @@ describe('hello unit', () => {
 	});
 });
 
-describe('метод Adapter.isValid', () => {
+describe('метод Adapter.validate', () => {
 	it('заданы dateStart, dateEnd', () => {
 		const params = {
 			dateStart: '2017-06-30T00:00Z',
 			dateEnd: '2017-06-01T00:00'
 		};
-		const result = Adapter.isValid(params);
+		const result = Adapter.validate.bind(Adapter, params);
 
-		expect(result).equal(true);
+		expect(result).not.throw();
 	});
 
 	it('не заданы dateStart, dateEnd', () => {
@@ -23,23 +23,34 @@ describe('метод Adapter.isValid', () => {
 			datstart: '27 june',
 			datend: '20 june'
 		};
-		const result = Adapter.isValid(params);
-
-		expect(result).equal(false);
+		const result = Adapter.validate.bind(Adapter, params);
+		const err = /^переданы не верные параметры$/;
+		expect(result).throw(Error, err);
 	});
 
 	it('задан параметр lastDays', () => {
 		const params = { lastDays: 31 };
-		const result = Adapter.isValid(params);
-
-		expect(result).equal(true);
+		const result = Adapter.validate.bind(Adapter, params);
+		expect(result).not.throw();
 	});
 
 	it('не задан параметр lastDays', () => {
 		const params = { days: 10 };
-		const result = Adapter.isValid(params);
+		const result = Adapter.validate.bind(Adapter, params);
+		const err = /^переданы не верные параметры$/;
+		expect(result).throw(Error, err);
+	});
 
-		expect(result).equal(false);
+	it('задан параметр yesterday', () => {
+		const params = { yesterday: true };
+		const result = Adapter.validate.bind(Adapter, params);
+		expect(result).not.throw();
+	});
+
+	it('задан параметр today', () => {
+		const params = { today: true };
+		const result = Adapter.validate.bind(Adapter, params);
+		expect(result).not.throw();
 	});
 });
 

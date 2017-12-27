@@ -1,5 +1,6 @@
 const Adapter = require('./adapter');
 const rp = require('request-promise');
+const debug = require('debug')('request');
 
 /**
  * Класс для работы с API динамического коллтрекинга от MANGO OFFICE
@@ -9,7 +10,7 @@ class MangoDct {
      * @param { string } token - токен виджета из личного кабинета
      * @param { string } wid - id виджета из личного кабинета
      */
-	constructor(token = process.env.token, wid = process.env.wid) {
+	constructor(token = process.env.TOKEN, wid = process.env.WID) {
 		this.validateConstructor(token, wid);
 		this.token = token;
 		this.wid = wid;
@@ -17,18 +18,13 @@ class MangoDct {
 	}
 
 	/**
-     * Делает запрос для получения звонков
-     *
+     *  Запрос на получение звонков
      *
      * @param {any} options - объект с параметрами для выгрузки
      * @return {Promise<Array>}
      */
 	calls(options) {
-		options.access_token = this.token;
-		if (!Adapter.isValid(options)) {
-			throw new Error('переданы не верные параметры');
-		}
-
+		Adapter.validate(options);
 		Adapter.normalize(options);
 		const params = Adapter.stringer(options);
 		const url = this.createUrl(params);
@@ -77,6 +73,7 @@ class MangoDct {
 				Authorization: `Bearer ${this.token}`
 			}
 		};
+		debug(`-> ${options.method} ${decodeURIComponent(url)}`);
 		return rp(options);
 	}
 }
