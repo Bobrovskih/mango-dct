@@ -115,6 +115,6 @@ MangoDct.calls({ today: true })
 </br>
 Пример лога:
 ```
-2017-12-27T18:23:38.033Z request -> https://widgets-api.mango-office.ru/v1/calltracking/224/calls?utmSource=yandex.ru&utmMedium=cpc&utmCampaign=skidka50&dateStart=2017-11-26T18:23Z&dateEnd=2017-12-27T18:23Z
+2017-12-27T18:23:38.033Z request -> GET https://widgets-api.mango-office.ru/v1/calltracking/224/calls?utmSource=yandex.ru&utmMedium=cpc&utmCampaign=skidka50&dateStart=2017-11-26T18:23Z&dateEnd=2017-12-27T18:23Z
 ```
 
