@@ -1,4 +1,4 @@
-const MangoDct = require('../src/index');
+const MangoDct = require('../src/mango-dct');
 
 let dct = new MangoDct();
 

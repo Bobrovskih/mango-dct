@@ -1,7 +1,8 @@
 const Adapter = require('./adapter');
+const Webhooks = require('./webhooks');
+
 const rp = require('request-promise');
 const debug = require('debug')('request');
-
 /**
  * Класс для работы с API динамического коллтрекинга от MANGO OFFICE
  */
@@ -15,6 +16,8 @@ class MangoDct {
 		this.token = token;
 		this.wid = wid;
 		this.baseUrl = 'https://widgets-api.mango-office.ru/v1/calltracking/';
+
+		this.webhooks = new Webhooks();
 	}
 
 	/**
