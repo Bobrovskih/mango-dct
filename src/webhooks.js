@@ -1,32 +1,29 @@
 const EventEmitter = require('events');
-const util = require('util');
+const debug = require('debug')('mango-dct:webhooks');
 
 class Webhooks extends EventEmitter {
-	constructor() {
+	constructor(pathname, all) {
 		super();
+		this.pathname = pathname;
+		this.all = all;
 	}
 
 	/**
-	 * Создает обработчик для вебхука
-	 * @param {string} path - url путь обработчика (pathname)
+	 * Функция-обработчик для express
 	 * @return {Function}
 	 */
-	create(path) {
-		const self = this;
-		function ret(req, res, next) {
-			if (path === req.path) {
+	get handler() {
+		return (req, res, next) => {
+			if (this.pathname === req.path) {
+				debug(`-> ${req.method} ${decodeURIComponent(req.originalUrl)}`);
 				this.emit('data', req.query);
-				self.emit('data', req.query);
-				return res.send({
-					accept: true
-				});
+				this.all.emit('data', req.query);
+				return res.send({ status: 200 });
 			}
 			return next();
-		}
-
-		util.inherits(ret, EventEmitter);
-		return ret;
+		};
 	}
 }
+
 
 module.exports = Webhooks;

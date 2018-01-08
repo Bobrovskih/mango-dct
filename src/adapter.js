@@ -1,4 +1,5 @@
 const qs = require('querystring');
+const url = require('url');
 const { allParams, requiredParams } = require('./parameters');
 
 /**
@@ -177,6 +178,15 @@ class Adapter {
 			dateStart,
 			dateEnd
 		};
+	}
+
+	/**
+	 * Возвращает pathname от переданного урла
+	 * @param {string} input - урл
+	 * @return {string}
+	 */
+	static pathname(input) {
+		return url.parse(input).pathname;
 	}
 }
 

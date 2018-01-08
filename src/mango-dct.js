@@ -1,8 +1,10 @@
+const EventEmitter = require('events');
+
 const Adapter = require('./adapter');
 const Webhooks = require('./webhooks');
 
 const rp = require('request-promise');
-const debug = require('debug')('request');
+const debug = require('debug')('mango-dct:calls');
 /**
  * Класс для работы с API динамического коллтрекинга от MANGO OFFICE
  */
@@ -16,8 +18,16 @@ class MangoDct {
 		this.token = token;
 		this.wid = wid;
 		this.baseUrl = 'https://widgets-api.mango-office.ru/v1/calltracking/';
+		this.allHooks = new EventEmitter();
+	}
 
-		this.webhooks = new Webhooks();
+	/**
+	 * Создает вебхук для прослушивания событий
+	 * @param {string} url - какой url слушать
+	 */
+	createWebhook(url) {
+		const pathname = Adapter.pathname(url);
+		return new Webhooks(pathname, this.allHooks);
 	}
 
 	/**
@@ -76,7 +86,7 @@ class MangoDct {
 				Authorization: `Bearer ${this.token}`
 			}
 		};
-		debug(`-> ${options.method} ${decodeURIComponent(url)}`);
+		debug(`<- ${options.method} ${decodeURIComponent(url)}`);
 		return rp(options);
 	}
 }

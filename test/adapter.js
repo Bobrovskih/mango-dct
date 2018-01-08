@@ -126,3 +126,25 @@ describe('метод Adapter.trimToMinutes', () => {
 		expect(result).equal('2017-12-23T17:44Z');
 	});
 });
+
+describe('метод Adapter.pathname', () => {
+	it('случайный url', () => {
+		const result = Adapter.pathname('http://localhost:8080/mango-dct/webhook1?utm_source=vk');
+		expect(result).to.equal('/mango-dct/webhook1');
+	});
+
+	it('только pathname', () => {
+		const result = Adapter.pathname('/mango-dct/webhook2');
+		expect(result).to.equal('/mango-dct/webhook2');
+	});
+
+	it('pathname search hash', () => {
+		const result = Adapter.pathname('/mango/dct?utm_content=chtoto#gdeto');
+		expect(result).to.equal('/mango/dct');
+	});
+
+	it('пустой url', () => {
+		const result = Adapter.pathname('');
+		expect(result).to.equal(null);
+	});
+});

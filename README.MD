@@ -55,7 +55,7 @@ new MangoDct('your-token-here', 'your-widget-id');
 | token  | String   |  Токен  |
 | wid  | String   |  id виджета  |
 
-### Метод calls
+### метод calls
 Данный метод возвращает список звонков на все подменные номера (включая номера статических каналов) за определенный промежуток времени. Список отсортирован по убыванию.
 
 
@@ -108,13 +108,71 @@ MangoDct.calls({ today: true })
 | utmContent | optional | string |  Содержание |  |
 | utmTerm | optional | string |  Ключевое слово |  | |
 
+### метод createWebhook
+Создает вебхук для прослушивания событий
+```js
+MangoDct.createWebhook(url); // => Webhooks
+```
+| Аргумент  | Тип  | Описание|
+| ------------ | ------------ |------------ |
+| url  | string   |  url адрес вебхука  |
+
+Пример использования:
+```js
+const MangoDct = require('mango-dct');
+const app = require('express')();
+const dct = new MangoDct();
+
+// создание  вебхуков
+const webhook1 = dct.createWebhook('/mango-dct/webhook1');
+const webhook2 = dct.createWebhook('/mango-dct/webhook2');
+const webhook3 = dct.createWebhook('/mango-dct/webhook3');
+
+// прослушивание вебхуков
+webhook1.on('data', e => console.log('on webhook1', e));
+webhook2.on('data', e => console.log('on webhook2', e));
+webhook3.on('data', e => console.log('on webhook3', e));
+
+// прослушивание событий от всех вебхуков
+dct.allHooks.on('data', e => console.log('on any webhook', e));
+
+// регистрация обработчиков
+app.use(webhook1.handler);
+app.use(webhook2.handler);
+app.use(webhook3.handler);
+
+app.use((req, res) => res.status(404).send({ error: 'not found' }));
+app.listen(8080);
+```
+
+Класс `Webhooks` наследуется от [EventEmmitter](https://nodejs.org/dist/v8.0.0/docs/api/events.html#events_class_eventemitter/)
+</br>
+### свойство allHooks
+Слушает события от всех созданных вебхуков
+```js
+MangoDct.allHooks;  // => EventEmmitter<any>
+```
+Пример:
+```js
+dct.allHooks.on('data', e => console.log('on any webhook', e));
+```
+
 
 
 ### Отладка
-Для логирования необходимо задать переменную `process.env.DEBUG=request`
-</br>
+ Для логирования запросов calls необходимо задать переменную `process.env.DEBUG=mango-dct:calls`
 Пример лога:
 ```
-2017-12-27T18:23:38.033Z request -> GET https://widgets-api.mango-office.ru/v1/calltracking/224/calls?utmSource=yandex.ru&utmMedium=cpc&utmCampaign=skidka50&dateStart=2017-11-26T18:23Z&dateEnd=2017-12-27T18:23Z
+mango-dct:calls <- GET https://widgets-api.mango-office.ru/v1/calltracking/224/calls?utmSource=yandex.ru&utmMedium=cpc&utmCampaign=skidka50&dateStart=2017-12-08T19:44Z&dateEnd=2018-01-08T19:44Z +0ms
 ```
+</br>
+Для логирования вебхуков необходимо задать переменную `process.env.DEBUG=mango-dct:webhooks`
+
+Пример лога:
+```
+mango-dct:webhooks -> GET /mango-dct/webhook3?utm_source=yandex +15s
+```
+</br>
+Для логирования запросов calls и вебхуков необходимо задать переменную 
+`process.env.DEBUG=mango-dct:*`
 
