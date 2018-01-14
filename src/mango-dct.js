@@ -2,6 +2,7 @@ const EventEmitter = require('events');
 
 const Adapter = require('./adapter');
 const Webhooks = require('./webhooks');
+const Transform = require('./transform/calls');
 
 const rp = require('request-promise');
 const debug = require('debug')('mango-dct:calls');
@@ -18,6 +19,7 @@ class MangoDct {
 		this.token = token;
 		this.wid = wid;
 		this.baseUrl = 'https://widgets-api.mango-office.ru/v1/calltracking/';
+		this.options = {};
 		this.allHooks = new EventEmitter();
 	}
 
@@ -27,7 +29,7 @@ class MangoDct {
 	 */
 	createWebhook(url) {
 		const pathname = Adapter.pathname(url);
-		return new Webhooks(pathname, this.allHooks);
+		return new Webhooks(pathname, this);
 	}
 
 	/**
@@ -43,6 +45,20 @@ class MangoDct {
 		const url = this.createUrl(params);
 
 		return this.request(url);
+	}
+
+	/**
+	 * Настраивает параметры для преобразования получаемых данных
+	 * @param {any} options - объект с параметрами
+	 * @example
+	 * dct.transform({ callStatus: true });
+	 */
+	transform(options = {}) {
+		for (const key in options) {
+			if (options[key] !== undefined) {
+				this.options[key] = options[key];
+			}
+		}
 	}
 
 	/**
@@ -84,7 +100,8 @@ class MangoDct {
 			json: true,
 			headers: {
 				Authorization: `Bearer ${this.token}`
-			}
+			},
+			transform: new Transform(this.options).init
 		};
 		debug(`<- ${options.method} ${decodeURIComponent(url)}`);
 		return rp(options);

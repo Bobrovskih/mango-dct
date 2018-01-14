@@ -1,19 +1,17 @@
 const MangoDct = require('../src/mango-dct');
 
-let dct = new MangoDct();
+const dct = new MangoDct();
 
 async function main() {
-    let parameters, calls;
+	const parameters = {
+		lastDays: 31,
+		utmSource: 'yandex.ru',
+		utmMedium: 'cpc',
+		utmCampaign: 'skidka50'
+	};
 
-    parameters = {
-        lastDays: 31,
-        utmSource: 'yandex.ru',
-        utmMedium: 'cpc',
-        utmCampaign: 'skidka50'
-    };
-
-    calls = await dct.calls(parameters).catch(err => console.log(err.message));
-    console.log('выгруженные звонки', calls);
+	const calls = await dct.calls(parameters).catch(err => console.log(err.message));
+	console.log('выгруженные звонки', calls);
 }
 
 main();

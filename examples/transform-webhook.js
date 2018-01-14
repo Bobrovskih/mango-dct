@@ -2,6 +2,7 @@ const MangoDct = require('../index');
 const app = require('express')();
 
 const dct = new MangoDct();
+dct.transform({ callStatus: true });
 
 const webhook1 = dct.createWebhook('/mango-dct/webhook1');
 const webhook2 = dct.createWebhook('/mango-dct/webhook2');

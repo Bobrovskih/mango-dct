@@ -26,17 +26,14 @@ const MangoDct = require('mango-dct');
 const dct = new MangoDct();
 
 async function main() {
-    let parameters;
-    let calls;
-
-    parameters = {
+    const parameters = {
         lastDays: 31,
         utmSource: 'yandex.ru',
         utmMedium: 'cpc',
         utmCampaign: 'skidka50'
     };
 
-    calls = await dct.calls(parameters).catch(err => console.log(err.message));
+    const calls = await dct.calls(parameters).catch(err => console.log(err.message));
     console.log('выгруженные звонки', calls);
 }
 main();
@@ -157,6 +154,26 @@ MangoDct.allHooks;  // => EventEmmitter<any>
 dct.allHooks.on('data', e => console.log('on any webhook', e));
 ```
 
+### метод transform
+Настраивает параметры для преобразования получаемых данных.
+Преобразование будет использоваться для метода calls и вебхуков.
+```js
+MangoDct.transform(options);  // => void
+```
+| Аргумент  | Тип  | Описание|
+| ------------ | ------------ |------------ |
+| options  | object   |  объект с параметрами  |
+
+Пример использования:
+```js
+dct.transform({ callStatus: true });
+```
+
+Возможные преобразования:
+
+| Аргумент  | Тип  | Описание|
+| ------------ | ------------ |------------ |
+| callStatus  | boolean   |  добавляет свойство callTextStatus - текстовое значение статуса завершения звонка (callStatus). Например, при наличии свойства `callStatus: 1110` будет добавлено свойство `callTextStatus: 'Вызов завершен вызывающим абонентом'`   |
 
 
 ### Отладка
@@ -165,14 +182,12 @@ dct.allHooks.on('data', e => console.log('on any webhook', e));
 ```
 mango-dct:calls <- GET https://widgets-api.mango-office.ru/v1/calltracking/224/calls?utmSource=yandex.ru&utmMedium=cpc&utmCampaign=skidka50&dateStart=2017-12-08T19:44Z&dateEnd=2018-01-08T19:44Z +0ms
 ```
-</br>
 Для логирования вебхуков необходимо задать переменную `process.env.DEBUG=mango-dct:webhooks`
 
 Пример лога:
 ```
 mango-dct:webhooks -> GET /mango-dct/webhook3?utm_source=yandex +15s
 ```
-</br>
 Для логирования запросов calls и вебхуков необходимо задать переменную 
 `process.env.DEBUG=mango-dct:*`
 
