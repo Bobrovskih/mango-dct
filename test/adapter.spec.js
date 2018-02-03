@@ -11,7 +11,7 @@ describe('метод Adapter.validate', () => {
 	it('заданы dateStart, dateEnd', () => {
 		const params = {
 			dateStart: '2017-06-30T00:00Z',
-			dateEnd: '2017-06-01T00:00'
+			dateEnd: '2017-06-01T00:00Z'
 		};
 		const result = Adapter.validate.bind(Adapter, params);
 
@@ -146,5 +146,169 @@ describe('метод Adapter.pathname', () => {
 	it('пустой url', () => {
 		const result = Adapter.pathname('');
 		expect(result).to.equal(null);
+	});
+});
+
+describe('метод Adapter.testFilter', () => {
+	let json;
+
+	beforeEach(() => {
+		json = {
+			dateStart: '2017-06-30T00:00Z',
+			dateEnd: '2017-06-01T00:00Z',
+			callType: 1,
+			waitDuration: 16,
+			duration: 124,
+			number: 74950000000,
+			callStatus: 1110,
+			callerNumber: 74959999999,
+			utmSource: 'https://direct.yandex.ru',
+			utmMedium: 'cpc',
+			device: 'tablet'
+		};
+	});
+
+	it('{} [true]', () => {
+		const filter = {};
+		const due = true;
+
+		const result = Adapter.testFilter(filter, json);
+		expect(result).equal(due);
+	});
+
+	it('callType:1 [true]', () => {
+		const filter = { callType: 1 };
+		const due = true;
+
+		const result = Adapter.testFilter(filter, json);
+		expect(result).equal(due);
+	});
+
+	it('callType:"1" [true]', () => {
+		const filter = { callType: '1' };
+		const due = true;
+
+		const result = Adapter.testFilter(filter, json);
+		expect(result).equal(due);
+	});
+
+	it('callType:1 duration:10 [true]', () => {
+		const filter = { callType: 1, duration: 124 };
+		const due = true;
+
+		const result = Adapter.testFilter(filter, json);
+		expect(result).equal(due);
+	});
+
+	it('calltype:1 [false]', () => {
+		const filter = { calltype: 1 };
+		const due = false;
+
+		const result = Adapter.testFilter(filter, json);
+		expect(result).equal(due);
+	});
+
+	it('utmMedium:"cpc", waitDuration:16 [true]', () => {
+		const filter = { utmMedium: 'cpc', waitDuration: 16 };
+		const due = true;
+
+		const result = Adapter.testFilter(filter, json);
+		expect(result).equal(due);
+	});
+
+	it('utmMedium:" cpc" ', () => {
+		const filter = { utmMedium: ' cpc' };
+		const due = false;
+
+		const result = Adapter.testFilter(filter, json);
+		expect(result).equal(due);
+	});
+
+	it('utmMedium:"" ', () => {
+		const filter = { utmMedium: '' };
+		const due = false;
+
+		const result = Adapter.testFilter(filter, json);
+		expect(result).equal(due);
+	});
+
+	it('utmSource:/yandex/ [true]', () => {
+		const filter = { utmSource: /yandex/ };
+		const due = true;
+
+		const result = Adapter.testFilter(filter, json);
+		expect(result).equal(due);
+	});
+
+	it('utmSource:/yandex/ [true]', () => {
+		const filter = { utmSource: /yandex/ };
+		const due = true;
+
+		const result = Adapter.testFilter(filter, json);
+		expect(result).equal(due);
+	});
+
+	it('device:/tablet|desktop/ [true]', () => {
+		const filter = { device: /tablet|desktop/ };
+		const due = true;
+
+		const result = Adapter.testFilter(filter, json);
+		expect(result).equal(due);
+	});
+
+	it('number:/^7495/ [true]', () => {
+		const filter = { number: /^7495/ };
+		const due = true;
+
+		const result = Adapter.testFilter(filter, json);
+		expect(result).equal(due);
+	});
+
+	it('callType:/[1-3]/, number:/^7495/ [true]', () => {
+		const filter = { callType: /[1-3]/, number: /^7495/ };
+		const due = true;
+
+		const result = Adapter.testFilter(filter, json);
+		expect(result).equal(due);
+	});
+
+	it('callType:1, waitDuration:"16", device:/CPC/i [true]', () => {
+		const filter = { callType: 1, waitDuration: '16', utmMedium: /CPC/i };
+		const due = true;
+
+		const result = Adapter.testFilter(filter, json);
+		expect(result).equal(due);
+	});
+
+	it('callType:/1,2/g  [false]', () => {
+		const filter = { callType: /1,2/g };
+		const due = false;
+
+		const result = Adapter.testFilter(filter, json);
+		expect(result).equal(due);
+	});
+
+	it('custom: 12345  [false]', () => {
+		const filter = { custom: 12345 };
+		const due = false;
+
+		const result = Adapter.testFilter(filter, json);
+		expect(result).equal(due);
+	});
+
+	it('device:true  [false]', () => {
+		const filter = { device: true };
+		const due = false;
+
+		const result = Adapter.testFilter(filter, json);
+		expect(result).equal(due);
+	});
+
+	it('dateStart: "2017-06-30T00:00Z", waitDuration: /[1-9]\\d+/  [true]', () => {
+		const filter = { dateStart: '2017-06-30T00:00Z', waitDuration: /[1-9]\d+/ };
+		const due = true;
+
+		const result = Adapter.testFilter(filter, json);
+		expect(result).equal(due);
 	});
 });

@@ -4,7 +4,7 @@
   "description": "NodeJS SDK for API Dynamic Calltracking by MANGO OFFICE",
   "main": "index.js",
   "scripts": {
-    "test": "mocha test/"
+    "test": "mocha test"
   },
   "engines": {
     "node": ">=8"

@@ -188,6 +188,85 @@ class Adapter {
 	static pathname(input) {
 		return url.parse(input).pathname;
 	}
+
+	/**
+	 * Определяет тип переменной.
+	 * @param {any} variable - переменная
+	 * @return {string} - в нижнем регистре
+	 */
+	static typeOf(variable) {
+		let type = Object.prototype.toString.call(variable);
+		type = type.slice(8, -1);
+		type = type.toLowerCase();
+		return type;
+	}
+
+	/**
+	 * Возвращает переданную строку в нижнем регистре
+	 * Если передана не строка, то просто возвращает исходное значение.
+	 * @param {string | any} input - исходное значение
+	 */
+	static toLowerCase(input) {
+		const isString = this.typeOf(input) === 'string';
+		const isNumber = this.typeOf(input) === 'number';
+
+		if (isString) {
+			return input.toLowerCase();
+		}
+
+		if (isNumber) {
+			return String(input).toLowerCase();
+		}
+		return input;
+	}
+
+
+	/**
+	 * Проверяет является ли пустым объектом (нет ниодного свойства)
+	 * @param {any} input - данные
+	 * @return {boolean}
+	 */
+	static isEmptyObject(input) {
+		const type = Adapter.typeOf(input);
+		if (type === 'object') {
+			const keysCount = Object.keys(input).length;
+			return keysCount === 0;
+		}
+		return false;
+	}
+
+	/**
+	 * Проверяет подходит ли фильтр под параметры
+	 * @param {string} event - имя ивента
+	 * @param {any} filter - фильтр
+	 * @param {any} json - параметры
+	 * @return {boolean}
+	 */
+	static testFilter(filter, json) {
+		if (Adapter.typeOf(filter) !== 'object') {
+			return false;
+		}
+
+		if (Adapter.isEmptyObject(filter)) {
+			return true;
+		}
+
+		for (const key in filter) {
+			if (filter[key] === null || filter[key] === undefined) continue;
+
+			if (Adapter.typeOf(filter[key]) === 'regexp') {
+				return filter[key].test(json[key]);
+			}
+
+			const filterVal = Adapter.toLowerCase(filter[key]);
+			const jsonVal = Adapter.toLowerCase(json[key]);
+
+			if (filterVal !== jsonVal) {
+				return false;
+			}
+		}
+		return true;
+	}
 }
 
 
