@@ -175,6 +175,39 @@ dct.transform({ callStatus: true });
 | ------------ | ------------ |------------ |
 | callStatus  | boolean   |  добавляет свойство callTextStatus - текстовое значение статуса завершения звонка (callStatus). Например, при наличии свойства `callStatus: 1110` будет добавлено свойство `callTextStatus: 'Вызов завершен вызывающим абонентом'`   |
 
+## класс Webhooks
+Класс для создания обработчика вебхука
+```js
+const webhook = new Webhooks(pathname, dct);
+```
+| Аргумент  | Тип  | Описание|
+| ------------ | ------------ |------------ |
+| pathname  | string   |   адрес для прослушивания вебхука |
+| dct  | MangoDct   |   экземпляр класса MangoDct |
+
+### свойство handler
+Создает и возвращает функцию-обработчик для express
+```js
+webhook.handler => Function
+```
+
+### метод hear
+Слушает события вебхука по заданному фильтру
+```js
+webhook.hear(filter, handler);
+```
+| Аргумент  | Тип  | Описание|
+| ------------ | ------------ |------------ |
+| filter  | object   |  объект с параметрами для фильтра событий |
+| handler  | function   |  колбэк функция |
+
+Пример использования:
+```js
+webhook1.hear({ callType: 1 }, e => console.log('on callType 1', e));
+webhook1.hear({ device: /tablet|desktop/i }, e => console.log('on  tablet or desktop device', e));
+webhook1.hear({ callerNumber: /^7495/  }, e => console.log('on 7495 mask phone number', e));
+webhook1.hear({ duration: /^[1-9]\d+/, utmMedium: 'cpc'  }, e => console.log('on duration >= 10 seconds and  utmMedium=cpc ', e));
+```
 
 ### Отладка
  Для логирования запросов calls необходимо задать переменную `process.env.DEBUG=mango-dct:calls`
