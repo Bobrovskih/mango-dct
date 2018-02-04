@@ -1,6 +1,6 @@
 {
   "name": "mango-dct",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "NodeJS SDK for API Dynamic Calltracking by MANGO OFFICE",
   "main": "index.js",
   "scripts": {
