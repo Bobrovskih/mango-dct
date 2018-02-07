@@ -188,7 +188,7 @@ const webhook = new Webhooks(pathname, dct);
 ### свойство handler
 Создает и возвращает функцию-обработчик для express
 ```js
-webhook.handler => Function
+webhook.handler // => Function
 ```
 
 ### метод hear
@@ -203,10 +203,10 @@ webhook.hear(filter, handler);
 
 Пример использования:
 ```js
-webhook1.hear({ callType: 1 }, e => console.log('on callType 1', e));
-webhook1.hear({ device: /tablet|desktop/i }, e => console.log('on  tablet or desktop device', e));
-webhook1.hear({ callerNumber: /^7495/  }, e => console.log('on 7495 mask phone number', e));
-webhook1.hear({ duration: /^[1-9]\d+/, utmMedium: 'cpc'  }, e => console.log('on duration >= 10 seconds and  utmMedium=cpc ', e));
+webhook.hear({ callType: 1 }, e => console.log('on callType 1', e));
+webhook.hear({ device: /tablet|desktop/i }, e => console.log('on  tablet or desktop device', e));
+webhook.hear({ callerNumber: /^7495/  }, e => console.log('on 7495 mask phone number', e));
+webhook.hear({ duration: /^[1-9]\d+/, utmMedium: 'cpc'  }, e => console.log('on duration >= 10 seconds and  utmMedium=cpc ', e));
 ```
 
 ### Отладка
