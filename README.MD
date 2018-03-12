@@ -9,12 +9,14 @@
 NodeJS версии 8 или более
 
 ### Токен
-Токен можно задать через переменную `process.env.TOKEN`</br>
+Токен можно задать через переменную `process.env.TOKEN`
+
 Или передать первый аргумент в конструктор 
 `new MangoDct('your-token-here', 'your-widget-id');`
 
 ### ID виджета
-ID виджета можно задать через переменную `process.env.WID`</br>
+ID виджета можно задать через переменную `process.env.WID`
+
 Или передать второй аргумент в конструктор 
 `new MangoDct('your-token-here', 'your-widget-id');`
 
@@ -49,8 +51,8 @@ new MangoDct('your-token-here', 'your-widget-id');
 
 | Аргумент  | Тип  | Описание|
 | ------------ | ------------ |------------ |
-| token  | String   |  Токен  |
-| wid  | String   |  id виджета  |
+| token  | string   |  токен  |
+| wid  | string   |  идентификатор виджета  |
 
 ### метод calls
 Данный метод возвращает список звонков на все подменные номера (включая номера статических каналов) за определенный промежуток времени. Список отсортирован по убыванию.
@@ -64,7 +66,7 @@ MangoDct.calls(options); // => Promise<any[]>
 | ------------ | ------------ |------------ |
 | options  | object   |  Объект содержит фильтры выгрузки  |
 
-</br>
+
 
 Период выгрузки можно задать несколькими способами:
 
@@ -88,7 +90,7 @@ MangoDct.calls({ yesterday: true })
 // за сегодня
 MangoDct.calls({ today: true })
 ```
-</br>
+
 
  Возможные фильтры:
 
@@ -143,7 +145,8 @@ app.listen(8080);
 ```
 
 Класс `Webhooks` наследуется от [EventEmmitter](https://nodejs.org/dist/v8.0.0/docs/api/events.html#events_class_eventemitter/)
-</br>
+
+
 ### свойство allHooks
 Слушает события от всех созданных вебхуков
 ```js
@@ -211,6 +214,7 @@ webhook.hear({ duration: /^[1-9]\d+/, utmMedium: 'cpc'  }, e => console.log('on 
 
 ### Отладка
  Для логирования запросов calls необходимо задать переменную `process.env.DEBUG=mango-dct:calls`
+ 
 Пример лога:
 ```
 mango-dct:calls <- GET https://widgets-api.mango-office.ru/v1/calltracking/224/calls?utmSource=yandex.ru&utmMedium=cpc&utmCampaign=skidka50&dateStart=2017-12-08T19:44Z&dateEnd=2018-01-08T19:44Z +0ms

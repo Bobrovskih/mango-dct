@@ -1,4 +1,4 @@
-const MangoDct = require('../index');
+const MangoDct = require('../');
 const app = require('express')();
 
 const dct = new MangoDct();

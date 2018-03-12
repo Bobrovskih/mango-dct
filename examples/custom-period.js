@@ -1,4 +1,4 @@
-const MangoDct = require('../src/mango-dct');
+const MangoDct = require('../');
 
 const dct = new MangoDct();
 

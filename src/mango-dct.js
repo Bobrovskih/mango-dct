@@ -74,14 +74,14 @@ class MangoDct {
      * Иначе выбрасывает исключение
      *
      * @param {string} token токен
-     * @param {string} wid виджет id
+     * @param {string} wid идентификатор виджета
      */
 	validateConstructor(token, wid) {
 		if (!token) {
 			throw new Error('Необходимо задать токен!');
 		}
 		if (!wid) {
-			throw new Error('Необходимо задать id виджета');
+			throw new Error('Необходимо задать идентификатор виджета!');
 		}
 		return true;
 	}
