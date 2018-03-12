@@ -5,7 +5,8 @@ const messages = require('../messages');
  */
 class Transform {
 	/**
-	 * @param {any} options - параметры
+	 * @constructor
+	 * @param {any} options параметры
 	 */
 	constructor(options = {}) {
 		this.options = options;
@@ -13,7 +14,7 @@ class Transform {
 	/**
 	 * Функция которая вызывает цепочкой обработчики.
 	 * Обработчик будет вызван если его имя передано в параметры options.
-	 * @return {Function}
+	 * @return {function}
 	 */
 	get init() {
 		const self = this;
@@ -35,8 +36,8 @@ class Transform {
 	
 	/**
 	 * Мапит код звонка в текст сообщения ВАТС
-	 * @param {any} body - тело ответа от request-promise
-	 * @param {any} res - res объект от request-promise
+	 * @param {any} body тело ответа от request-promise
+	 * @param {any} res res объект от request-promise
 	 */
 	callStatus(body, res) {
 		if (res.statusCode === 200 && body.length > 0) {

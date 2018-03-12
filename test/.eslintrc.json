@@ -2,13 +2,5 @@
     "env": {
         "mocha": true,
         "amd": true
-    },
-    "rules": {
-        "no-trailing-spaces": [
-            2,
-            {
-                "skipBlankLines": true
-            }
-        ]
     }
 }

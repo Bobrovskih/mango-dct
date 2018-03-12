@@ -11,8 +11,8 @@ const debug = require('debug')('mango-dct:calls');
  */
 class MangoDct {
 	/**
-     * @param { string } token - токен виджета из личного кабинета
-     * @param { string } wid - id виджета из личного кабинета
+     * @param {string} token токен виджета из личного кабинета
+     * @param {string} wid id виджета из личного кабинета
      */
 	constructor(token = process.env.TOKEN, wid = process.env.WID) {
 		this.validateConstructor(token, wid);
@@ -25,7 +25,7 @@ class MangoDct {
 
 	/**
 	 * Создает вебхук для прослушивания событий
-	 * @param {string} url - какой url слушать
+	 * @param {string} url какой url слушать
 	 */
 	createWebhook(url) {
 		const pathname = Adapter.pathname(url);
@@ -33,10 +33,9 @@ class MangoDct {
 	}
 
 	/**
-     *  Запрос на получение звонков
-     *
-     * @param {any} options - объект с параметрами для выгрузки
-     * @return {Promise<Array>}
+     * Запрос на получение звонков
+     * @param {any} options объект с параметрами для выгрузки
+     * @return {Promise<any[]>}
      */
 	calls(options) {
 		Adapter.validate(options);
@@ -49,7 +48,7 @@ class MangoDct {
 
 	/**
 	 * Настраивает параметры для преобразования получаемых данных
-	 * @param {any} options - объект с параметрами
+	 * @param {any} options объект с параметрами
 	 * @example
 	 * dct.transform({ callStatus: true });
 	 */
@@ -63,7 +62,7 @@ class MangoDct {
 
 	/**
      * Строит урл для GET запроса
-     * @param {string} params - строка параметров
+     * @param {string} params строка параметров
      */
 	createUrl(params) {
 		return `${this.baseUrl}${this.wid}/calls?${params}`;
@@ -74,8 +73,8 @@ class MangoDct {
      * Проверяет что токен и виджет id заданы
      * Иначе выбрасывает исключение
      *
-     * @param {string} token - токен
-     * @param {string} wid  - виджет id
+     * @param {string} token токен
+     * @param {string} wid виджет id
      */
 	validateConstructor(token, wid) {
 		if (!token) {
@@ -90,7 +89,7 @@ class MangoDct {
 
 	/**
      * Выполняет GET запрос
-     * @param {string} url  - урл для запроса
+     * @param {string} url урл для запроса
      * @return {Promise<any>}
      */
 	request(url) {

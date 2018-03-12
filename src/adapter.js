@@ -1,6 +1,6 @@
 const qs = require('querystring');
 const url = require('url');
-const { allParams, requiredParams } = require('./parameters');
+const { all, required } = require('./parameters');
 
 /**
  * Класс со статическими вспомогательными методами
@@ -23,7 +23,7 @@ class Adapter {
 			return true;
 		}
 
-		return requiredParams.every((item) => {
+		return required.every((item) => {
 			for (const key in params) {
 				if (key === item) {
 					return true;
@@ -35,13 +35,12 @@ class Adapter {
 
 	/**
 	 * Преобразует объект в строку параметров
-	 *
-	 * @param { any } params - объект с параметрами GET запроса
-	 * @return { string }
+	 * @param {any} params объект с параметрами GET запроса
+	 * @return {string}
 	 */
 	static stringer(params) {
 		for (const key in params) {
-			if (allParams.indexOf(key) === -1) {
+			if (all.indexOf(key) === -1) {
 				delete params[key];
 			}
 		}
@@ -80,7 +79,7 @@ class Adapter {
 
 	/**
 	 * Устанавливает для параметров значения по умолчанию
-	 * @param {any} options - объект с параметрами GET запроса
+	 * @param {any} options объект с параметрами GET запроса
 	 * @return {any}
 	 */
 	static setDefaults(options) {
@@ -94,7 +93,7 @@ class Adapter {
 	 * Принимает количество дней.
 	 * Возвращает объект с датой начала и конца в формате ISO 8601
 	 * @param {string} value
-	 * @return {any}
+	 * @return { { dateStart: string, dateEnd: string } }
 	 */
 	static lastDays(value) {
 		let dateStart;
@@ -125,7 +124,7 @@ class Adapter {
 	 * Преобразует дату из расширенного формата ISO 8601
 	 * В стандартный формат ISO 8601
 	 *
-	 * @param {string} isoDate - дата-время в *расширенном* формате формате ISO
+	 * @param {string} isoDate дата-время в *расширенном* формате формате ISO
 	 * @return {string}
 	 */
 	static trimToMinutes(isoDate) {
@@ -136,8 +135,7 @@ class Adapter {
 	/**
 	 * Возвращает период за вчерашний день.
 	 * В формате ISO 8601 (short)
-	 *
-	 * @return {any}
+	 * @return { { dateStart: string, dateEnd: string } }
 	 */
 	static getYesterdayPeriod() {
 		let dateStart = new Date();
@@ -162,6 +160,7 @@ class Adapter {
 	/**
 	 * Возвращает период за сегодняшний день
 	 * в формате ISO 8601 (short)
+	 * @return { { dateStart: string, dateEnd: string } }
 	 */
 	static getTodayPeriod() {
 		let dateStart = new Date();
@@ -182,7 +181,7 @@ class Adapter {
 
 	/**
 	 * Возвращает pathname от переданного урла
-	 * @param {string} input - урл
+	 * @param {string} input урл
 	 * @return {string}
 	 */
 	static pathname(input) {
@@ -191,8 +190,8 @@ class Adapter {
 
 	/**
 	 * Определяет тип переменной.
-	 * @param {any} variable - переменная
-	 * @return {string} - в нижнем регистре
+	 * @param {any} variable переменная
+	 * @return {string} в нижнем регистре
 	 */
 	static typeOf(variable) {
 		let type = Object.prototype.toString.call(variable);
@@ -204,7 +203,7 @@ class Adapter {
 	/**
 	 * Возвращает переданную строку в нижнем регистре
 	 * Если передана не строка, то просто возвращает исходное значение.
-	 * @param {string | any} input - исходное значение
+	 * @param {string | any} input исходное значение
 	 */
 	static toLowerCase(input) {
 		const isString = this.typeOf(input) === 'string';
@@ -223,7 +222,7 @@ class Adapter {
 
 	/**
 	 * Проверяет является ли пустым объектом (нет ниодного свойства)
-	 * @param {any} input - данные
+	 * @param {any} input данные
 	 * @return {boolean}
 	 */
 	static isEmptyObject(input) {
@@ -237,9 +236,9 @@ class Adapter {
 
 	/**
 	 * Проверяет подходит ли фильтр под параметры
-	 * @param {string} event - имя ивента
-	 * @param {any} filter - фильтр
-	 * @param {any} json - параметры
+	 * @param {string} event имя ивента
+	 * @param {any} filter фильтр
+	 * @param {any} json параметры
 	 * @return {boolean}
 	 */
 	static testFilter(filter, json) {

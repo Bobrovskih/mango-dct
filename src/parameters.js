@@ -16,6 +16,8 @@ const required = [
 	'dateEnd'
 ];
 
-module.exports.allParams = all;
-module.exports.requiredParams = required;
+module.exports = {
+	all,
+	required,
+};
 
