@@ -1,7 +1,9 @@
 const EventEmitter = require('events');
 const debug = require('debug')('mango-dct:webhooks');
 const Transform = require('./transform/webhooks');
-const Adapter = require('./adapter');
+const Helpers = require('./helpers');
+
+require('./typings');
 
 class Webhooks extends EventEmitter {
 	constructor(pathname, dct) {
@@ -29,6 +31,11 @@ class Webhooks extends EventEmitter {
 		};
 	}
 
+	/**
+	 * Слушает вебхуки по заданному фильтру
+	 * @param {Call} filter фильтр
+	 * @param {(e:Call) => } handler обработчик
+	 */
 	hear(filter, handler) {
 		const newHear = { filter, handler };
 		this.poolHear.push(newHear);
@@ -36,13 +43,13 @@ class Webhooks extends EventEmitter {
 
 	/**
 	 * Проверяет и вызывает обработчики hear
-	 * @param {any} json - параметры
+	 * @param {Call} json параметры
 	 */
 	invokeHear(json) {
 		this.poolHear
 			.forEach((hear) => {
 				const { filter } = hear;
-				if (Adapter.testFilter(filter, json)) {
+				if (Helpers.testFilter(filter, json)) {
 					hear.handler.call(this, json);
 				}
 			}, this);

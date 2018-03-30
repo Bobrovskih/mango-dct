@@ -1,11 +1,14 @@
 const EventEmitter = require('events');
 
-const Adapter = require('./adapter');
+const Helpers = require('./helpers');
 const Webhooks = require('./webhooks');
 const Transform = require('./transform/calls');
 
 const rp = require('request-promise');
 const debug = require('debug')('mango-dct:calls');
+
+require('./typings');
+
 /**
  * Класс для работы с API динамического коллтрекинга от MANGO OFFICE
  */
@@ -28,19 +31,19 @@ class MangoDct {
 	 * @param {string} url какой url слушать
 	 */
 	createWebhook(url) {
-		const pathname = Adapter.pathname(url);
+		const pathname = Helpers.pathname(url);
 		return new Webhooks(pathname, this);
 	}
 
 	/**
      * Запрос на получение звонков
      * @param {any} options объект с параметрами для выгрузки
-     * @return {Promise<any[]>}
+     * @return {Promise<Call[]>}
      */
 	calls(options) {
-		Adapter.validate(options);
-		Adapter.normalize(options);
-		const params = Adapter.stringer(options);
+		Helpers.validate(options);
+		Helpers.normalize(options);
+		const params = Helpers.stringer(options);
 		const url = this.createUrl(params);
 
 		return this.request(url);

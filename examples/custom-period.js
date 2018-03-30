@@ -12,8 +12,8 @@ async function main() {
 		isQuality: '1'
 	};
 
-	const calls = await dct.calls(parameters).catch(err => console.log(err.message));
+	const calls = await dct.calls(parameters);
 	console.log('выгруженные звонки', calls);
 }
 
-main();
+main().catch(console.log);

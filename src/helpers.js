@@ -5,10 +5,10 @@ const { all, required } = require('./parameters');
 /**
  * Класс со статическими вспомогательными методами
  */
-class Adapter {
+class Helpers {
 	/**
 	 * Проверяет параметры на корректность
-	 * @param {any} params - объект с параметрами GET запроса
+	 * @param {any} params объект с параметрами GET запроса
 	 */
 	static validate(params) {
 		if (parseInt(params.lastDays, 10)) {
@@ -226,7 +226,7 @@ class Adapter {
 	 * @return {boolean}
 	 */
 	static isEmptyObject(input) {
-		const type = Adapter.typeOf(input);
+		const type = Helpers.typeOf(input);
 		if (type === 'object') {
 			const keysCount = Object.keys(input).length;
 			return keysCount === 0;
@@ -237,28 +237,28 @@ class Adapter {
 	/**
 	 * Проверяет подходит ли фильтр под параметры
 	 * @param {string} event имя ивента
-	 * @param {any} filter фильтр
-	 * @param {any} json параметры
+	 * @param {Call} filter фильтр
+	 * @param {Call} json параметры
 	 * @return {boolean}
 	 */
 	static testFilter(filter, json) {
-		if (Adapter.typeOf(filter) !== 'object') {
+		if (Helpers.typeOf(filter) !== 'object') {
 			return false;
 		}
 
-		if (Adapter.isEmptyObject(filter)) {
+		if (Helpers.isEmptyObject(filter)) {
 			return true;
 		}
 
 		for (const key in filter) {
 			if (filter[key] === null || filter[key] === undefined) continue;
 
-			if (Adapter.typeOf(filter[key]) === 'regexp') {
+			if (Helpers.typeOf(filter[key]) === 'regexp') {
 				return filter[key].test(json[key]);
 			}
 
-			const filterVal = Adapter.toLowerCase(filter[key]);
-			const jsonVal = Adapter.toLowerCase(json[key]);
+			const filterVal = Helpers.toLowerCase(filter[key]);
+			const jsonVal = Helpers.toLowerCase(json[key]);
 
 			if (filterVal !== jsonVal) {
 				return false;
@@ -269,4 +269,4 @@ class Adapter {
 }
 
 
-module.exports = Adapter;
+module.exports = Helpers;
