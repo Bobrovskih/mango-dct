@@ -31,3 +31,21 @@
  * @property {string} firstUrl Адрес страницы входа пользователя на сайт
  * @property {string} customParam Дополнительные параметры, передаваемые в код виджета тем, кто разместил его на сайте. Ограничение - 100 символов.
  */
+
+
+/**
+ * @typedef Filter фильтр запроса звонков
+ * @property {number} [lastDays] за последние n дней
+ * @property {boolean} [yesterday] за вчера
+ * @property {boolean} [today] за сегодня
+ * @property {string} dateStart Время поступления звонка в формате ISO 8601: DD-MM-YYYYThh:mmZ
+ * @property {string} dateEnd Время окончания звонка в формате ISO 8601: DD-MM-YYYYThh:mmZ
+ * @property {number} [callType] Тип звонка: 1 - динамический, 2 - статический, 3 - дефолтный
+ * @property {boolean} [isNew] Флаг уникального звонка
+ * @property {boolean} [isQuality] Флаг качественного звонка
+ * @property {string} [utmSource] Источник
+ * @property {string} [utmMedium] Канал
+ * @property {string} [utmCampaign] Кампания
+ * @property {string} [utmContent] Содержание (объявления)
+ * @property {string} [utmTerm] Ключевое слово
+ */

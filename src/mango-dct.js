@@ -37,7 +37,7 @@ class MangoDct {
 
 	/**
      * Запрос на получение звонков
-     * @param {any} options объект с параметрами для выгрузки
+     * @param {Filter} options объект с параметрами для выгрузки
      * @return {Promise<Call[]>}
      */
 	calls(options) {
