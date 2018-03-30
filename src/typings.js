@@ -4,7 +4,7 @@
  * @typedef Call информация о звонке на подменный номер
  * @property {string} callId id звонка
  * @property {string} dateStart Время поступления звонка в формате ISO 8601: DD-MM-YYYYThh:mmZ
- * @property {string} dateEndВремя Время окончания звонка в формате ISO 8601: DD-MM-YYYYThh:mmZ
+ * @property {string} dateEnd Время окончания звонка в формате ISO 8601: DD-MM-YYYYThh:mmZ
  * @property {number} callType Тип звонка: 1 - динамический, 2 - статический, 3 - дефолтный
  * @property {number} callStatus Статус завершения звонка как в ВАТС API, 11XX- звонок был принят, иначе - отклонён
  * @property {number} number Динамический номер, на который был принят звонок

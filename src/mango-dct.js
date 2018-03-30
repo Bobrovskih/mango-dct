@@ -66,6 +66,7 @@ class MangoDct {
 	/**
      * Строит урл для GET запроса
      * @param {string} params строка параметров
+	 * @private
      */
 	createUrl(params) {
 		return `${this.baseUrl}${this.wid}/calls?${params}`;
@@ -78,6 +79,7 @@ class MangoDct {
      *
      * @param {string} token токен
      * @param {string} wid идентификатор виджета
+	 * @private
      */
 	validateConstructor(token, wid) {
 		if (!token) {
@@ -94,6 +96,7 @@ class MangoDct {
      * Выполняет GET запрос
      * @param {string} url урл для запроса
      * @return {Promise<any>}
+	 * @private
      */
 	request(url) {
 		const options = {

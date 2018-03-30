@@ -5,6 +5,9 @@ const Helpers = require('./helpers');
 
 require('./typings');
 
+/**
+ * Класс для работы с вебхуками
+ */
 class Webhooks extends EventEmitter {
 	constructor(pathname, dct) {
 		super();
@@ -25,7 +28,9 @@ class Webhooks extends EventEmitter {
 				this.invokeHear(req.query);
 				this.emit('data', req.query);
 				this.dct.allHooks.emit('data', req.query);
-				return res.send({ status: 200 });
+				return res.send({
+					status: 200
+				});
 			}
 			return next();
 		};
@@ -37,18 +42,24 @@ class Webhooks extends EventEmitter {
 	 * @param {(e:Call) => } handler обработчик
 	 */
 	hear(filter, handler) {
-		const newHear = { filter, handler };
+		const newHear = {
+			filter,
+			handler
+		};
 		this.poolHear.push(newHear);
 	}
 
 	/**
 	 * Проверяет и вызывает обработчики hear
 	 * @param {Call} json параметры
+	 * @private
 	 */
 	invokeHear(json) {
 		this.poolHear
 			.forEach((hear) => {
-				const { filter } = hear;
+				const {
+					filter
+				} = hear;
 				if (Helpers.testFilter(filter, json)) {
 					hear.handler.call(this, json);
 				}
