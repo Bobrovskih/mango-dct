@@ -40,13 +40,16 @@ class MangoDct {
      * @param {Filter} options объект с параметрами для выгрузки
      * @return {Promise<Call[]>}
      */
-	calls(options) {
+	async calls(options) {
+		const { csv } = options;
 		Helpers.validate(options);
 		Helpers.normalize(options);
 		const params = Helpers.stringer(options);
-		const url = this.createUrl(params);
+		const url = this.createUrl(params, !!csv);
 
-		return this.request(url);
+		const calls = await this.request(url);
+		Helpers.makeCSV(csv, calls);
+		return calls;
 	}
 
 	/**
@@ -66,10 +69,12 @@ class MangoDct {
 	/**
      * Строит урл для GET запроса
      * @param {string} params строка параметров
+	 * @param {boolean} [csv] формат csv
 	 * @private
      */
-	createUrl(params) {
-		return `${this.baseUrl}${this.wid}/calls?${params}`;
+	createUrl(params, csv) {
+		const ext = csv ? '.csv' : '';
+		return `${this.baseUrl}${this.wid}/calls${ext}?${params}`;
 	}
 
 
@@ -98,7 +103,7 @@ class MangoDct {
      * @return {Promise<any>}
 	 * @private
      */
-	request(url) {
+	async request(url) {
 		const options = {
 			url,
 			method: 'GET',
@@ -110,7 +115,7 @@ class MangoDct {
 			transform: new Transform(this.options).init
 		};
 		debug(`<- ${options.method} ${decodeURIComponent(url)}`);
-		return rp(options);
+		return await rp(options);
 	}
 }
 

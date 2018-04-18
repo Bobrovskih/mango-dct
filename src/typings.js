@@ -48,4 +48,5 @@
  * @property {string} [utmCampaign] Кампания
  * @property {string} [utmContent] Содержание (объявления)
  * @property {string} [utmTerm] Ключевое слово
+ * @property {string} [csv] абсолютный путь до csv файла
  */

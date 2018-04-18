@@ -107,6 +107,13 @@ MangoDct.calls({ today: true })
 | utmContent | optional | string |  Содержание |  |
 | utmTerm | optional | string |  Ключевое слово |  | |
 
+По-умолчанию для выгрузки используется формат json.
+Для записи звонков в csv файл небходимо задать свойство `options.csv` :
+
+```js
+MangoDct.calls({ today: true, csv: 'C:/mango-dct/downloads/calls.csv' });
+```
+
 ### метод createWebhook
 Создает вебхук для прослушивания событий
 ```js

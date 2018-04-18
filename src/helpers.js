@@ -1,5 +1,8 @@
 const qs = require('querystring');
 const url = require('url');
+const { promisify } = require('util');
+const writeFile = promisify(require('fs').writeFile);
+
 const { all, required } = require('./parameters');
 
 /**
@@ -265,6 +268,16 @@ class Helpers {
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * Пишет выгруженные звонки в csv файл
+	 * @param {string} filePath абсолютный путь до файла
+	 * @param {string} data данные
+	 */
+	static async makeCSV(filePath, calls) {
+		if (!filePath) return;
+		await writeFile(filePath, calls);
 	}
 }
 

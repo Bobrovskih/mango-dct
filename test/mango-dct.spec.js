@@ -93,3 +93,22 @@ describe('MangoDct.request', () => {
 			});
 	});
 });
+
+describe('MangoDct.createUrl', () => {
+	it('csv', () => {
+		const dct = new MangoDct('token', '123');
+		const params = 'dateStart=2018-03-18T21%3A00Z&dateEnd=2018-04-18T21%3A00Z';
+		const csv = true;
+		const result = dct.createUrl(params, csv);
+		const due = 'https://widgets-api.mango-office.ru/v1/calltracking/123/calls.csv?dateStart=2018-03-18T21%3A00Z&dateEnd=2018-04-18T21%3A00Z';
+		expect(result).equal(due);
+	});
+	it('default format', () => {
+		const dct = new MangoDct('token', '123');
+		const params = 'dateStart=2018-03-18T21%3A00Z&dateEnd=2018-04-18T21%3A00Z';
+		const csv = false;
+		const result = dct.createUrl(params, csv);
+		const due = 'https://widgets-api.mango-office.ru/v1/calltracking/123/calls?dateStart=2018-03-18T21%3A00Z&dateEnd=2018-04-18T21%3A00Z';
+		expect(result).equal(due);
+	});
+});
