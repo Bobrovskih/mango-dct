@@ -104,7 +104,8 @@ class MangoDct {
 			method: 'GET',
 			json: true,
 			headers: {
-				Authorization: `Bearer ${this.token}`
+				Authorization: `Bearer ${this.token}`,
+				'User-Agent': 'https://github.com/Bobrovskih/mango-dct',
 			},
 			transform: new Transform(this.options).init
 		};

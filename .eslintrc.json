@@ -14,11 +14,11 @@
         "no-param-reassign": 0,
         "no-await-in-loop": 0,
         "no-return-await": 0,
-        "no-unused-vars": 0,
         "comma-dangle": 0,
         "no-continue": 0,
         "no-bitwise": 0,
         "no-tabs": 0,
+        "no-new": 0,
         "indent": [
             "error",
             "tab"

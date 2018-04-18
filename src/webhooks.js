@@ -18,13 +18,13 @@ class Webhooks extends EventEmitter {
 
 	/**
 	 * Функция-обработчик для express
-	 * @return {Function}
+	 * @return {(req: any, res: any, next: function) =>}
 	 */
 	get handler() {
 		return (req, res, next) => {
 			if (this.pathname === req.path) {
 				debug(`-> ${req.method} ${decodeURIComponent(req.originalUrl)}`);
-				const transform = new Transform(this.dct.options, req.query);
+				new Transform(this.dct.options, req.query);
 				this.invokeHear(req.query);
 				this.emit('data', req.query);
 				this.dct.allHooks.emit('data', req.query);
