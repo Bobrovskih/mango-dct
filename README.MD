@@ -1,3 +1,6 @@
+ [![npm version](https://badge.fury.io/js/mango-dct.svg)](https://www.npmjs.com/package/mango-dct) [![Build status branch:master](https://travis-ci.org/Bobrovskih/mango-dct.svg?branch=master)](https://travis-ci.org/Bobrovskih/mango-dct)
+ [![coverage](https://codecov.io/gh/Bobrovskih/mango-dct/branch/master/graph/badge.svg)](https://codecov.io/gh/Bobrovskih/mango-dct)
+
 ## Библиотека для API  динамического коллтрекинга от MANGO OFFICE
 
 [![API динамического коллтрекинга от Манго Офис](https://mango-office.ru/upload/iblock/c73/kt.png "Динамический коллтрекинг Манго Офис")](https://www.mango-office.ru/support/virtualnaya_ats/chasto_zadavaemye_voprosy/dinamicheskiy_kolltreking/api_dinamicheskogo_kolltreiknga/ "Динамический коллтрекинг Манго Офис")
