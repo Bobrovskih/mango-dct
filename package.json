@@ -1,10 +1,14 @@
 {
   "name": "mango-dct",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "NodeJS SDK for API Dynamic Calltracking by MANGO OFFICE",
   "main": "index.js",
   "scripts": {
-    "test": "mocha test"
+    "test": "mocha test",
+    "lint": "eslint --ext .js examples/ src/ test/",
+    "lint:fix": "eslint --ext .js examples/ src/ test/ --fix",
+    "cov": "nyc npm test",
+    "coverage": "nyc npm test && nyc report --reporter=text-lcov > coverage.lcov && codecov"
   },
   "engines": {
     "node": ">=8"
@@ -34,9 +38,11 @@
   },
   "devDependencies": {
     "chai": "4.1.2",
+    "codecov": "^3.0.4",
     "eslint-config-airbnb": "16.1.0",
     "eslint-config-airbnb-base": "12.1.0",
     "eslint-plugin-import": "2.8.0",
-    "mocha": "4.0.1"
+    "mocha": "4.0.1",
+    "nyc": "^13.0.1"
   }
 }

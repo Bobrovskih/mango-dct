@@ -1,5 +1,5 @@
 const { expect } = require('chai');
-const MangoDct = require('../src/mango-dct');
+const MangoDct = require('..');
 
 describe('метод MangoDct.transform', () => {
 	let dct;
@@ -34,15 +34,10 @@ describe('MangoDct.createWebhook', () => {
 });
 
 describe('MangoDct.calls', () => {
-	it('got 401', (done) => {
-		const dct = new MangoDct('test', '0');
-		dct.calls({ today: true })
-			.then(done)
-			.catch((e) => {
-				if (e.statusCode === 401) {
-					done();
-				}
-			});
+	it('224', async () => {
+		const dct = new MangoDct('ceb0b254e8d168a9712c290b1b6517102f775f14', '224');
+		const res = await dct.calls({ today: true });
+		expect(res).instanceOf(Array);
 	});
 });
 
@@ -78,19 +73,6 @@ describe('MangoDct.validateConstructor', () => {
 	it('ok', () => {
 		const dct = new MangoDct('token', '123');
 		expect(dct).instanceof(MangoDct);
-	});
-});
-
-describe('MangoDct.request', () => {
-	it('404', (done) => {
-		const dct = new MangoDct('token', '123');
-		dct.request('https://widgets-api.mango-office.ru/v1/calltracking/123/')
-			.then(done)
-			.catch((e) => {
-				if (e.statusCode) {
-					done();
-				}
-			});
 	});
 });
 

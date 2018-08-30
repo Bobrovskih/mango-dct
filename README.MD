@@ -1,6 +1,6 @@
 ## Библиотека для API  динамического коллтрекинга от MANGO OFFICE
 
-[![API динамического коллтрекинга от Манго Офис](https://www.mango-office.ru/upload/iblock/c11/kt.png "Динамический коллтрекинг Манго Офис")](https://www.mango-office.ru/support/virtualnaya_ats/chasto_zadavaemye_voprosy/dinamicheskiy_kolltreking/api_dinamicheskogo_kolltreiknga/ "Динамический коллтрекинг Манго Офис")
+[![API динамического коллтрекинга от Манго Офис](https://mango-office.ru/upload/iblock/c73/kt.png "Динамический коллтрекинг Манго Офис")](https://www.mango-office.ru/support/virtualnaya_ats/chasto_zadavaemye_voprosy/dinamicheskiy_kolltreking/api_dinamicheskogo_kolltreiknga/ "Динамический коллтрекинг Манго Офис")
 ### Установка
 `npm install mango-dct`
 
@@ -35,7 +35,7 @@ async function main() {
         utmCampaign: 'skidka50'
     };
 
-    const calls = await dct.calls(parameters).catch(err => console.log(err.message));
+    const calls = await dct.calls(parameters);
     console.log('выгруженные звонки', calls);
 }
 main();
