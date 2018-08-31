@@ -1,4 +1,4 @@
-const { should, expect, assert } = require('chai');
+const { expect } = require('chai');
 const Helpers = require('../src/helpers');
 
 describe('hello unit', () => {
